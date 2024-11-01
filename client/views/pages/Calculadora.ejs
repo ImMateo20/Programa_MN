@@ -1,0 +1,63 @@
+    <div class="cuerpo_calculadora"
+        style="background-color: rgb(100, 108, 108);padding: 5px;border-radius: 20px;">
+
+         <!-- <form id="formGrafica" action="/crear_grafica" method="post"> -->
+         <form id="formGrafica">
+
+            <div class="input_expresion">
+                <input id="inputExpresion" type="text" name="expresion" readonly
+                    style="padding: 5px 0;height: 40px;font-size: 22px;text-align: center;margin: 10px 0;">
+            </div>
+
+
+
+            <div class="div_botones_calculadora">
+                <button class="botones_calculadora" onClick="segundoPiso()" type="button">2nd</button>
+                <button id="buttonPrueba" onClick="concatenarExpresion('log')" class="botones_calculadora" type="button" title="log(X) , logX(X)">log</button>
+                <button id="botonSen" class="botones_calculadora" onClick="concatenarExpresion('sin')" type="button">sen</button>
+                <button id="botonCos" class="botones_calculadora" onClick="concatenarExpresion('cos')" type="button">cos</button>
+                <button id="botonTan" class="botones_calculadora" onClick="concatenarExpresion('tan')" type="button">tan</button>
+                <button class="botones_calculadora" onClick="limpiarInput()" type="button">C</button>
+                
+                <button class="botones_calculadora" onClick="concatenarExpresion('x')" type="button" title="Variable X">x</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('^')" type="button">x<sup>y</sup></button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('^(-1)')" type="button"> x<sup>-1</sup> </button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('^2')" type="button"> x<sup>2</sup> </button>
+                <button id="buttonPrueba" onClick="concatenarExpresion('^3')" class="botones_calculadora" type="button"> x<sup>3</sup> </button>
+                <button class="botones_calculadora" onClick="eliminarUCaracter()" type="button"> <- </button>
+                
+                <button id="buttonPrueba" onClick="concatenarExpresion('sqrt')" class="botones_calculadora" type="button">&radic;</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('7')" type="button">7</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('8')" type="button">8</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('9')" type="button">9</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('(')" type="button">(</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion(')')" type="button">)</button>
+                
+                <button class="botones_calculadora" onClick="concatenarExpresion('factorial')" type="button" title="factorial(x)">!</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('4')" type="button">4</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('5')" type="button">5</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('6')" type="button">6</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('*')" type="button">*</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('/')" type="button">  <sup>a</sup>  /  <sub>b</sub>  </button>
+                
+                <button class="botones_calculadora" onClick="concatenarExpresion('e')" type="button">e</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('1')" type="button">1</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('2')" type="button">2</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('3')" type="button">3</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('+')" type="button">+</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('-')" type="button">-</button>
+                
+                <button class="botones_calculadora" onClick="concatenarExpresion('pi')" type="button">&pi;</button>
+                
+                <button class="botones_calculadora" onClick="concatenarExpresion('.')" type="button">.</button>
+                <button class="botones_calculadora" onClick="concatenarExpresion('0')" type="button">0</button>
+
+
+                <!-- <input id="boton_graficar" class="botones_calculadora" type="submit" value="Graficar" title="Graficar"> -->
+
+                <button id="boton_graficar" class="botones_calculadora" type="button" onclick="obtenerExpresionForm()" title="Graficar">Graficar</button>
+            </div>
+
+        </form>
+
+    </div>

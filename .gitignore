@@ -1,0 +1,17 @@
+
+node_modules/
+
+*.log
+npm-debug.log*
+
+dist/
+build/
+
+.idea/
+.vscode/
+
+.env
+.env.local
+
+.tpm
+.temp

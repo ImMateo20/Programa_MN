@@ -1,0 +1,23 @@
+<%- include ('../partials/header.html') %>
+
+    <div class="cuerpo_inicial">
+        <div class="calculadoraGraficadora">
+
+            <%- include ('Calculadora.ejs') %>
+
+        </div>
+        <div id="image_graficaInicial" class="imagen_grafica">
+
+            <div id="image_grafica" class="imagen_grafica">
+                <img id="imagenGrafica" src="/ruta/server/img/Perrito.jpg" alt="imagen">
+            </div>
+
+            <button id="zoomIn" onclick="hacerZoom()">+</button>
+            <button id="zoomOut" onclick="quitarZoom()">-</button>
+            
+        </div>
+
+
+    </div>
+
+    <%- include ('../partials/footer.html') %>

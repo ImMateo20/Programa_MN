@@ -1,0 +1,17 @@
+<%- include ('../partials/header.html') %>
+
+    <div id="contenedorPrincipalEAR">
+        <div id="contenedorValoresEAR">
+            <form id="formularioValoresEAR">
+                <input id="idValorVerdadero" type="number" placeholder="Valor verdadero">
+                <input id="idValorAproximado" type="number" placeholder="Valor aproximado">
+                <button id="botonEnviarV_EAR" type="button" onclick="obtenerValoresEAR()">Calcular</button>
+            </form>
+        </div>
+        <div id="contenedorResultadoEAR">
+            <input id="idErrorAbsoluto" type="number" placeholder="Resultado error absoluto" readonly>
+            <input id="idErrorRelativo" type="number" placeholder="Resultado error relativo" readonly>
+        </div>
+    </div>
+
+    <%- include ('../partials/footer.html') %>

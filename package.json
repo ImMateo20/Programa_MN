@@ -1,0 +1,28 @@
+{
+  "name": "stack_em",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "algebra.js": "^0.2.6",
+    "chartjs-node-canvas": "^4.1.6",
+    "colors": "^1.4.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "mathjax-node": "^2.1.1",
+    "mathjs": "^13.1.1",
+    "morgan": "^1.10.0",
+    "stack_em": "file:"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

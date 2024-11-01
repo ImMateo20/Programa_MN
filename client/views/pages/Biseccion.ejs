@@ -1,0 +1,35 @@
+<%- include ('../partials/header.html') %>
+
+    <div class="cuerpo_inicial">
+        <div class="calculadoraBiseccion">
+            <%- include ('Calculadora.ejs') %>
+        </div>
+        <div id="image_graficaInicial" class="imagen_grafica">
+            <div id="image_grafica" class="imagen_grafica">
+
+                <img id="imagenGrafica" src="/ruta/server/img/Perrito.jpg" alt="imagen">
+            </div>
+            <button id="zoomIn" onclick="hacerZoom()">+</button>
+            <button id="zoomOut" onclick="quitarZoom()">-</button>
+        </div>
+        <div id="divFormBiseccion" class="formBiseccion">
+            <form id="idFormLimites">
+                <label for="limiteInferiorBiseccion">
+                    <p>Ingresa el limite inferior: </p>
+                    <input id="limiteInferiorBiseccion" type="number" name="limiteInferior" min="-10" max="10"
+                        onchange="verificarLimInf()">
+                </label>
+                <label for="limiteSuperiorBiseccion">
+                    <p>Ingresa el limite superior: </p>
+                    <input id="limiteSuperiorBiseccion" type="number" name="limiteSuperior" min="-10" max="10"
+                        onchange="verificarLimSup()">
+                </label>
+                <input style="display: block; margin: 0 auto" type="button" value="Generar metodo de biseccion"
+                    onclick="generarMetodoB()">
+                <p>Nota: Si desea no ingresar limites, solo deje los espacios en blanco</p>
+            </form>
+        </div>
+    </div>
+
+
+    <%- include ('../partials/footer.html') %>
