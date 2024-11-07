@@ -1,5 +1,5 @@
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="11.985ex" height="12.509ex" style="vertical-align: -5.671ex;" viewBox="0 -2944.1 5160 5385.9" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
-<title id="MathJax-SVG-1-Title">\begin{bmatrix}1&amp;2&amp;3\\4&amp;3&amp;4\\4&amp;5&amp;6\\7&amp;8&amp;9\end{bmatrix}</title>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="11.985ex" height="9.176ex" style="vertical-align: -4.005ex;" viewBox="0 -2226.5 5160 3950.7" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">\begin{bmatrix}1&amp;2&amp;3\\4&amp;5&amp;6\\7&amp;8&amp;9\end{bmatrix}</title>
 <defs aria-hidden="true">
 <path stroke-width="1" id="E1-MJMAIN-5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path>
 <path stroke-width="1" id="E1-MJMAIN-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
@@ -20,39 +20,36 @@
 <path stroke-width="1" id="E1-MJSZ4-23A5" d="M263 0V602H347V0H263Z"></path>
 </defs>
 <g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
-<g transform="translate(0,2850)">
+<g transform="translate(0,2150)">
  <use xlink:href="#E1-MJSZ4-23A1" x="0" y="-1155"></use>
-<g transform="translate(0,-3446.188741721854) scale(1,2.8112582781456954)">
+<g transform="translate(0,-2048.5066225165565) scale(1,0.49337748344370863)">
  <use xlink:href="#E1-MJSZ4-23A2"></use>
 </g>
- <use xlink:href="#E1-MJSZ4-23A3" x="0" y="-4555"></use>
+ <use xlink:href="#E1-MJSZ4-23A3" x="0" y="-3155"></use>
 </g>
 <g transform="translate(834,0)">
 <g transform="translate(-11,0)">
- <use xlink:href="#E1-MJMAIN-31" x="0" y="2050"></use>
- <use xlink:href="#E1-MJMAIN-34" x="0" y="650"></use>
- <use xlink:href="#E1-MJMAIN-34" x="0" y="-750"></use>
- <use xlink:href="#E1-MJMAIN-37" x="0" y="-2150"></use>
+ <use xlink:href="#E1-MJMAIN-31" x="0" y="1350"></use>
+ <use xlink:href="#E1-MJMAIN-34" x="0" y="-50"></use>
+ <use xlink:href="#E1-MJMAIN-37" x="0" y="-1450"></use>
 </g>
 <g transform="translate(1490,0)">
- <use xlink:href="#E1-MJMAIN-32" x="0" y="2050"></use>
- <use xlink:href="#E1-MJMAIN-33" x="0" y="650"></use>
- <use xlink:href="#E1-MJMAIN-35" x="0" y="-750"></use>
- <use xlink:href="#E1-MJMAIN-38" x="0" y="-2150"></use>
+ <use xlink:href="#E1-MJMAIN-32" x="0" y="1350"></use>
+ <use xlink:href="#E1-MJMAIN-35" x="0" y="-50"></use>
+ <use xlink:href="#E1-MJMAIN-38" x="0" y="-1450"></use>
 </g>
 <g transform="translate(2990,0)">
- <use xlink:href="#E1-MJMAIN-33" x="0" y="2050"></use>
- <use xlink:href="#E1-MJMAIN-34" x="0" y="650"></use>
- <use xlink:href="#E1-MJMAIN-36" x="0" y="-750"></use>
- <use xlink:href="#E1-MJMAIN-39" x="0" y="-2150"></use>
+ <use xlink:href="#E1-MJMAIN-33" x="0" y="1350"></use>
+ <use xlink:href="#E1-MJMAIN-36" x="0" y="-50"></use>
+ <use xlink:href="#E1-MJMAIN-39" x="0" y="-1450"></use>
 </g>
 </g>
-<g transform="translate(4492,2850)">
+<g transform="translate(4492,2150)">
  <use xlink:href="#E1-MJSZ4-23A4" x="0" y="-1155"></use>
-<g transform="translate(0,-3446.188741721854) scale(1,2.8112582781456954)">
+<g transform="translate(0,-2048.5066225165565) scale(1,0.49337748344370863)">
  <use xlink:href="#E1-MJSZ4-23A5"></use>
 </g>
- <use xlink:href="#E1-MJSZ4-23A6" x="0" y="-4555"></use>
+ <use xlink:href="#E1-MJSZ4-23A6" x="0" y="-3155"></use>
 </g>
 </g>
 </svg>

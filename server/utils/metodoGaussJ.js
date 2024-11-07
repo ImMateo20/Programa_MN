@@ -56,7 +56,7 @@ class Fraccion {
   }
 }
 
-let matriz;
+// let matriz;
 
 async function preguntar() {
   let numEcuaciones = await obtenerRespuesta(
@@ -97,12 +97,12 @@ let parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 c
 let contador = 0;
 let debemostrar = false;
 
-const TOSERVER = [];
+let TOSERVER = [];
 let operacionesAuxSERVER = [];
 
 function iniciar() {
   for (let filaAux = 0; filaAux < matriz.length; filaAux++) {
-    operacionesAuxSERVER = [];
+    if (parteMatriz != 3) operacionesAuxSERVER = [];
     for (let filaOrg = filaAux + 1; filaOrg < matriz.length; filaOrg++) {
       if (parteMatriz == 1) {
         debemostrar = operacionHacer0(
@@ -139,6 +139,7 @@ function iniciar() {
           if (contador > 0) {
             mostrarMatriz();
           }
+          operacionesAuxSERVER = [];
           continue;
         }
       }
@@ -187,6 +188,7 @@ function operacionHacer1(fila, c) {
   }
   console.log("");
   const stringToShow = `F${c + 1} (${fraccionADividir.toTexto()})`;
+  operacionesAuxSERVER.push(stringToShow);
   console.log(stringToShow.yellow);
   return true;
   // mostrarMatriz();
@@ -284,7 +286,7 @@ function extraerCoeficientes(equation) {
 }
 
 limpiarConsole();
-await preguntar();
+/* await preguntar();
 console.log("Matriz inicial:".bgMagenta);
 mostrarMatriz();
 await obtenerRespuesta("PRESIONA ENTER PARA CONTINUAR");
@@ -295,7 +297,46 @@ console.log("Procesos:".bgMagenta);
 iniciar();
 console.log("Resultados:".bgBlue);
 mostrarResultados();
-console.log("LONUEVO")
-console.table(TOSERVER);
-
+console.log("LONUEVO");
+console.table(TOSERVER);*/
 rl.close();
+
+let matriz;
+
+export function retornarOperMatrizSVG() {
+  parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 centros
+  contador = 0;
+  debemostrar = false;
+  TOSERVER = [];
+  matriz = Array(4)
+    .fill()
+    .map(() => Array(5).fill(0));
+  matriz[0][0] = new Fraccion(16);
+  matriz[0][1] = new Fraccion(-6);
+  matriz[0][2] = new Fraccion(4);
+  matriz[0][3] = new Fraccion(1);
+  matriz[0][4] = new Fraccion(-36);
+  matriz[1][0] = new Fraccion(1);
+  matriz[1][1] = new Fraccion(-8);
+  matriz[1][2] = new Fraccion(1);
+  matriz[1][3] = new Fraccion(1);
+  matriz[1][4] = new Fraccion(-64);
+  matriz[2][0] = new Fraccion(16);
+  matriz[2][1] = new Fraccion(2);
+  matriz[2][2] = new Fraccion(-4);
+  matriz[2][3] = new Fraccion(1);
+  matriz[2][4] = new Fraccion(-4);
+  matriz[3][0] = new Fraccion(9);
+  matriz[3][1] = new Fraccion(8);
+  matriz[3][2] = new Fraccion(-3);
+  matriz[3][3] = new Fraccion(1);
+  matriz[3][4] = new Fraccion(-64);
+
+  console.log("Procesos:".bgMagenta);
+  iniciar();
+  console.log("Resultados:".bgBlue);
+  mostrarResultados();
+  console.log("LONUEVO");
+  console.table(TOSERVER);
+  return TOSERVER;
+}

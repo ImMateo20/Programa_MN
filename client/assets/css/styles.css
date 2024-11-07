@@ -19,7 +19,7 @@ header {
 
 .barra_navegacion {
     background-color: gray;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
@@ -178,15 +178,25 @@ header {
 }
 
 #divSVG {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 #divSVG svg {
     /* font-size: 200px; */
-    width: 100px;
+    width: 200px;
     margin: 0;
     padding: 0;
     /* height: 100px; */
+}
+
+#contenedorMatrizOper {
+    background-color: rgb(181, 181, 181);
+    border-radius: 10px;
+    margin: 20px 20px;
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }
 
 #operacionesSVG {

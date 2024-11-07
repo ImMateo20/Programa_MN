@@ -6,8 +6,7 @@ import { fileURLToPath } from "url";
 import { obtenerErrorAyR } from "./utils/errorAbsRel.js";
 import { crearGrafica } from "./utils/metodoGrafico.js";
 import { procesarBiseccion } from "./utils/metodoBiseccion.js";
-import { recibirSVGM } from "./utils/mathjax.js";
-import mathjax from "mathjax-node";
+import { recibirSVGM } from "./utils/pruebaMathJax.js";
 
 // Configuración de rutas de archivo
 const __filename = fileURLToPath(import.meta.url);
