@@ -72,7 +72,7 @@ function obtenerLimites() {
 
 async function procesarYEnviarForm(limites) {
   try {
-    const respuesta = await fetch("/procesar_biseccion", {
+    const respuesta = await fetch("/procesar-biseccion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -84,7 +84,7 @@ async function obtenerExpresionForm() {
 
 async function procesarGrafica(inputs) {
   try {
-    const response = await fetch("/crear_grafica", {
+    const response = await fetch("/crear-grafica", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

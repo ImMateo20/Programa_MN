@@ -1,7 +1,7 @@
 import { simplify, parse, matrix, fraction } from "mathjs";
 import mathjax from "mathjax-node";
 import { writeFileSync } from "fs";
-import { retornarOperMatrizSVG } from "./metodoGaussJ.js";
+import { retornarOperMatrizSVG } from "./metodoEliminacionG.js";
 
 mathjax.config({
   MathJax: {
@@ -12,13 +12,14 @@ mathjax.config({
 });
 mathjax.start();
 
-export async function recibirSVGM() {
-  const recibido = retornarOperMatrizSVG();
-  const SVGs = [];
+export async function recibirSVG_EG() {
+  const { procesosTOSERVER, despejesTOSERVER } = retornarOperMatrizSVG();
+  const procesos = [];
+  const resultados = [];
 
-  for (const objeto of recibido) {
+  for (const proceso of procesosTOSERVER) {
     let auxOpers = await Promise.all(
-      objeto["operacionesSVG"].map(async (operacion) => {
+      proceso["operacionesSVG"].map(async (operacion) => {
         let auxOperSVG = await mathjax.typeset({
           math: operacion,
           format: "TeX",
@@ -29,10 +30,10 @@ export async function recibirSVGM() {
     );
 
     let auxMatriz = [];
-    for (let fila = 0; fila < objeto["matrizSVG"].length; fila++) {
+    for (let fila = 0; fila < proceso["matrizSVG"].length; fila++) {
       let auxFilaM = [];
-      for (let columna = 0; columna <= objeto["matrizSVG"].length; columna++) {
-        let valor = objeto["matrizSVG"][fila][columna];
+      for (let columna = 0; columna <= proceso["matrizSVG"].length; columna++) {
+        let valor = proceso["matrizSVG"][fila][columna];
         auxFilaM.push(
           valor.denominador == 1
             ? valor.numerador
@@ -52,15 +53,35 @@ export async function recibirSVGM() {
       svg: true,
     });
 
-    SVGs.push({
+    procesos.push({
       resultadoOpersSVG: auxOpers,
       resultadoMatrizSVG: resultadoMSVG.svg,
     });
   }
 
-//   console.log(SVGs);
+  for (const ecuacion of despejesTOSERVER) { 
+    let ecuacionDesp = await mathjax.typeset({
+      math: ecuacion["ecuacionD"],
+      format: "TeX",
+      svg: true,
+    });
+    let resultadoV = await mathjax.typeset({
+      math: ecuacion["resultado"],
+      format: "TeX",
+      svg: true,
+    });
+
+    resultados.push({
+      numDeEcu: ecuacion["numEcuacion"],
+      ecuacionDesp: ecuacionDesp.svg,
+      resultV: resultadoV.svg,
+    });
+  }
+
+  //   console.log(SVGs);
 
   return {
-    resultado: SVGs,
+    procesos,
+    resultados,
   };
 }

@@ -12,7 +12,7 @@ async function obtenerValoresEAR() {
   }
 
   try {
-    const result = await fetch("/operar_error_AyR", {
+    const result = await fetch("/operar-error-AyR", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
