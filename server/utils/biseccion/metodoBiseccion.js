@@ -184,6 +184,17 @@ function obtenerError(expresion, valores) {
   console.log("fXb*fXp: ", fXb_fXp);
   console.log(" ");
 
+  primerRegistro.push({
+    Xa,
+    Xb,
+    Xp,
+    fXa,
+    fXb,
+    fXp,
+    fXa_fXp,
+    fXb_fXp,
+  });
+
   ciclar(expresion, Xa, Xb, Xp, fXa_fXp, fXb_fXp);
 }
 
@@ -221,7 +232,20 @@ function ciclar(expresion, Xa, Xb, Xp, fXa_fXp, fXb_fXp) {
   let Ea = Math.abs(round(((newXp - Xp) / newXp) * 100, 5));
   console.log("ErrorA: ", Ea, "%");
 
-  if (Ea < 5) return;
+  registrosTOSERVER.push({
+    nuevoXa: Xa,
+    nuevoXb: Xb,
+    viejoXp: Xp,
+    nuevoXp: newXp,
+    fXa,
+    fXb,
+    fXp,
+    fXa_fXp,
+    fXb_fXp,
+    errorA: Ea,
+  });
+
+  if (Ea < 0.05) return;
 
   console.log(" ");
 
@@ -243,38 +267,47 @@ function limpiarConsole() {
   });
 } */
 
-async function iniciarMetodo(expresion) {
+let primerRegistro = [];
+let registrosTOSERVER = [];
+
+export async function iniciarMetodo(expresion) {
   let valoress = [];
+  primerRegistro = [];
+  registrosTOSERVER = [];
 
   limpiarConsole();
 
-  const ingresarLim = await obtenerRespuesta(
-    "Quieres ingresar los limites de la funcion?\nIngrese 's', en caso contrario solo presione Enter: "
-  );
+  // const ingresarLim = await obtenerRespuesta(
+  //   "Quieres ingresar los limites de la funcion?\nIngrese 's', en caso contrario solo presione Enter: "
+  // );
 
-  if (ingresarLim === "s") {
-    const limiteInferior = parseFloat(
-      await obtenerRespuesta("Limite inferior: ")
-    );
-    const limiteSuperior = parseFloat(
-      await obtenerRespuesta("Limite superior: ")
-    );
-    valoress = [
-      {
-        x: limiteInferior,
-        y: funcion(expresion, limiteInferior),
-      },
-      {
-        x: limiteSuperior,
-        y: funcion(expresion, limiteSuperior),
-      },
-    ];
-    console.log("\nFuncion: ", expresion);
-    obtenerError(expresion, valoress);
-  } else {
-    console.log("\nFuncion: ", expresion);
-    procesarValores(expresion);
-  }
+  // if (ingresarLim === "s") {
+  //   const limiteInferior = parseFloat(
+  //     await obtenerRespuesta("Limite inferior: ")
+  //   );
+  //   const limiteSuperior = parseFloat(
+  //     await obtenerRespuesta("Limite superior: ")
+  //   );
+  //   valoress = [
+  //     {
+  //       x: limiteInferior,
+  //       y: funcion(expresion, limiteInferior),
+  //     },
+  //     {
+  //       x: limiteSuperior,
+  //       y: funcion(expresion, limiteSuperior),
+  //     },
+  //   ];
+  //   console.log("\nFuncion: ", expresion);
+  //   obtenerError(expresion, valoress);
+  // } else {
+  console.log("\nFuncion: ", expresion);
+  procesarValores(expresion);
+  return {
+    primerRegistro,
+    registrosTOSERVER,
+  };
+  // }
 }
 
 /* let expr = "x^3+x^2+21x-3";

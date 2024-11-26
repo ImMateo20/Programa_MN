@@ -1,4 +1,4 @@
-import { crearGrafica } from "../utils/metodoGrafico.js";
+import { crearGrafica } from "../utils/grafico/metodoGrafico.js";
 
 const mostrarPagGraficadora = (req, res) => {
   res.render("layouts/Graficadora");
@@ -6,7 +6,7 @@ const mostrarPagGraficadora = (req, res) => {
 
 const metodoGrafico = async (req, res) => {
   const body = req.body;
-
+  
   const buffer = await crearGrafica(body.expresion);
 
   res.setHeader("Content-Type", "image/jpg");

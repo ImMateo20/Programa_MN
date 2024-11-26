@@ -12,10 +12,42 @@ mathjax.config({
 });
 mathjax.start();
 
-export async function recibirSVG_EG() {
-  const { procesosTOSERVER, despejesTOSERVER } = retornarOperMatrizSVG();
+export async function recibirSVG_EG(sistema) {
+  const { matrizTOSERVER, procesosTOSERVER, despejesTOSERVER } =
+    retornarOperMatrizSVG(sistema);
+  const matriz = [];
   const procesos = [];
   const resultados = [];
+
+  for (const proceso of matrizTOSERVER) {
+    let auxMatriz = [];
+    for (let fila = 0; fila < proceso["matrizSVG"].length; fila++) {
+      let auxFilaM = [];
+      for (let columna = 0; columna <= proceso["matrizSVG"].length; columna++) {
+        let valor = proceso["matrizSVG"][fila][columna];
+        auxFilaM.push(
+          valor.denominador == 1
+            ? valor.numerador
+            : fraction(valor.numerador, valor.denominador)
+        );
+      }
+      auxMatriz.push(auxFilaM);
+    }
+    let auxMatrizPreSVG = matrix(auxMatriz);
+    let auxLatexM = parse(auxMatrizPreSVG.toString()).toTex({
+      parenthesis: "auto",
+      implicit: "hide",
+    });
+    let resultadoMSVG = await mathjax.typeset({
+      math: auxLatexM,
+      format: "TeX",
+      svg: true,
+    });
+
+    matriz.push({
+      resultadoMatrizSVG: resultadoMSVG.svg,
+    });
+  }
 
   for (const proceso of procesosTOSERVER) {
     let auxOpers = await Promise.all(
@@ -59,7 +91,7 @@ export async function recibirSVG_EG() {
     });
   }
 
-  for (const ecuacion of despejesTOSERVER) { 
+  for (const ecuacion of despejesTOSERVER) {
     let ecuacionDesp = await mathjax.typeset({
       math: ecuacion["ecuacionD"],
       format: "TeX",
@@ -75,12 +107,14 @@ export async function recibirSVG_EG() {
       numDeEcu: ecuacion["numEcuacion"],
       ecuacionDesp: ecuacionDesp.svg,
       resultV: resultadoV.svg,
+      xxx: ecuacion["xxx"],
     });
   }
 
   //   console.log(SVGs);
 
   return {
+    matriz,
     procesos,
     resultados,
   };

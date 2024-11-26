@@ -1,4 +1,4 @@
-import { obtenerErrorAyR } from "../utils/errorAbsRel.js";
+import { obtenerErrorAyR } from "../utils/error_ar/errorAbsRel.js";
 
 const mostrarPagErrorAR = (req, res) => {
   res.render("layouts/ErrorAR");

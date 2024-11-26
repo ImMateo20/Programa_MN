@@ -272,6 +272,7 @@ async function iniciarMetodo(expresion) {
     console.log("\nFuncion: ", expresion);
     obtenerError(expresion, valoress);
   } else {
+    expr = await obtenerRespuesta("Ingrese su ecuacion: ")
     console.log("\nFuncion: ", expresion);
     procesarValores(expresion);
   }

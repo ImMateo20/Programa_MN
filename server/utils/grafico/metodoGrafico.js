@@ -3,12 +3,17 @@ import { ChartJSNodeCanvas } from "chartjs-node-canvas";
 import fs from "fs";
 import { FunctionNode, evaluate, min, size, typeOf } from "mathjs";
 import readline from "readline";
+import colors from 'colors'
+
+function limpiarConsole() {
+  return process.stdout.write("\x1b[2J\x1b[3J\x1b[H");
+}
 
 export const crearGrafica = async (expresion) => {
   //METODO PARA GENERAR LA GRAFICA EN BASE A LA EXPRESION ENVIADA DESDE EL FORMULARIO DEL NAVEGADOR
   const width = 2000;
   const height = 2000;
-
+  limpiarConsole()
   // const rl = readline.createInterface({
   //   input: process.stdin,
   //   output: process.stdout,
@@ -30,10 +35,11 @@ export const crearGrafica = async (expresion) => {
   let valoresY = [];
 
   // const expresion = await obtenerRespuesta("Ingresa tu funcion matematica: ");
+  const limite = 10
 
-  for (let x = -10; x <= 10; x += 0.5) {
+  for (let x = -limite; x <= limite; x += 0.1) {
     valoresX.push(x.toFixed(1));
-    valoresY.push(funcion(expresion, x));
+    valoresY.push(funcion(expresion, x.toFixed(1)));
   }
 
   // rl.close();
@@ -116,8 +122,10 @@ export const crearGrafica = async (expresion) => {
               size: 50,
             },
           },
-          min: -maxValorAbsoluto,
-          max: maxValorAbsoluto,
+          min: -limite,
+          max: limite,
+          // min: -maxValorAbsoluto,//esto es lo que le pone el limite min sin restriccion
+          // max: maxValorAbsoluto, //esto es lo que le pone el limite max sin restriccion
         },
       },
       plugins: {
@@ -159,7 +167,14 @@ function funcion(expresion, x) {
 
   try {
     const valor = evaluate(expresion);
-    console.log(valor);
+
+    if(valor === 0) {
+    console.log(`Raiz encontrada en f(${x}) = ${valor}`.green);
+  } else {
+      console.log(`f(${x}) = ${valor}`.red);
+
+    }
+
     return typeOf(valor) != "Complex" && Number.isFinite(valor)
       ? valor.toFixed(2)
       : NaN;

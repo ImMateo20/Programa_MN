@@ -1,4 +1,4 @@
-import { isPositive, isNegative, isZero } from "mathjs";
+import { isPositive, isNegative, isZero, forEach } from "mathjs";
 import pkg from "colors";
 import readline from "readline";
 
@@ -87,18 +87,17 @@ function mostrarMatriz() {
     matrizAMostrar[`Ecuacion${fila + 1}:`] = objetoEcuacion;
   }
   console.table(matrizAMostrar);
-  TOSERVER.push({
-    operacionesSVG: operacionesAuxSERVER,
-    matrizSVG: matriz.map((s) => [...s]),
-  });
+  if (operacionesAuxSERVER.length !== 0) {
+    TOSERVER.push({
+      operacionesSVG: operacionesAuxSERVER,
+      matrizSVG: matriz.map((s) => [...s]),
+    });
+  }
 }
 
 let parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 centros
 let contador = 0;
 let debemostrar = false;
-
-let TOSERVER = [];
-let operacionesAuxSERVER = [];
 
 function iniciar() {
   for (let filaAux = 0; filaAux < matriz.length; filaAux++) {
@@ -302,63 +301,45 @@ console.table(TOSERVER);*/
 rl.close();
 
 let matriz;
+let matrizTOSERVER = [];
+let TOSERVER = [];
+let operacionesAuxSERVER = [];
 
-export function retornarOperMatrizSVG() {
+export function retornarOperMatrizSVG(sistema) {
   parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 centros
   contador = 0;
   debemostrar = false;
+  matrizTOSERVER = [];
   TOSERVER = [];
-  matriz = Array(6)
+  matriz = Array(sistema.ecuaciones.length)
     .fill()
-    .map(() => Array(7).fill(0));
-  matriz[0][0] = new Fraccion(5);
-  matriz[0][1] = new Fraccion(-2);
-  matriz[0][2] = new Fraccion(5);
-  matriz[0][3] = new Fraccion(-5);
-  matriz[0][4] = new Fraccion(6);
-  matriz[0][5] = new Fraccion(-8);
-  matriz[0][6] = new Fraccion(-9);
-  matriz[1][0] = new Fraccion(-6);
-  matriz[1][1] = new Fraccion(6);
-  matriz[1][2] = new Fraccion(-3);
-  matriz[1][3] = new Fraccion(1);
-  matriz[1][4] = new Fraccion(4);
-  matriz[1][5] = new Fraccion(-8);
-  matriz[1][6] = new Fraccion(-5);
-  matriz[2][0] = new Fraccion(-5);
-  matriz[2][1] = new Fraccion(5);
-  matriz[2][2] = new Fraccion(-7);
-  matriz[2][3] = new Fraccion(3);
-  matriz[2][4] = new Fraccion(-4);
-  matriz[2][5] = new Fraccion(3);
-  matriz[2][6] = new Fraccion(21);
-  matriz[3][0] = new Fraccion(-1);
-  matriz[3][1] = new Fraccion(-4);
-  matriz[3][2] = new Fraccion(-9);
-  matriz[3][3] = new Fraccion(6);
-  matriz[3][4] = new Fraccion(9);
-  matriz[3][5] = new Fraccion(5);
-  matriz[3][6] = new Fraccion(26);
-  matriz[4][0] = new Fraccion(7);
-  matriz[4][1] = new Fraccion(5);
-  matriz[4][2] = new Fraccion(-8);
-  matriz[4][3] = new Fraccion(-4);
-  matriz[4][4] = new Fraccion(7);
-  matriz[4][5] = new Fraccion(-6);
-  matriz[4][6] = new Fraccion(65);
-  matriz[5][0] = new Fraccion(4);
-  matriz[5][1] = new Fraccion(-1);
-  matriz[5][2] = new Fraccion(-3);
-  matriz[5][3] = new Fraccion(5);
-  matriz[5][4] = new Fraccion(-3);
-  matriz[5][5] = new Fraccion(-5);
-  matriz[5][6] = new Fraccion(149);
+    .map(() => Array(sistema.ecuaciones.length + 1).fill(0));
 
+  if (sistema.tipo == "completas") {
+    sistema.ecuaciones.forEach((ecuacion, index) => {
+      const ecuacionArray = extraerCoeficientes(ecuacion);
+      matriz[index] = ecuacionArray;
+      console.table(ecuacionArray);
+    });
+  } else if (sistema.tipo == "casillas") {
+    sistema.ecuaciones.forEach((ecuacion, i) => {
+      ecuacion.forEach((celda, j) => {
+        matriz[i][j] = new Fraccion(parseInt(celda));
+      });
+    });
+  }
+
+  matrizTOSERVER.push({
+    matrizSVG: matriz.map((s) => [...s]),
+  });
   console.log("Procesos:".bgMagenta);
   iniciar();
   console.log("Resultados:".bgBlue);
   mostrarResultados();
   console.log("LONUEVO");
   console.table(TOSERVER);
-  return TOSERVER;
+  return {
+    matrizTOSERVER,
+    TOSERVER,
+  };
 }

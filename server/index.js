@@ -39,5 +39,5 @@ app.use("/sistemas-de-ecuaciones", sistemasDeEcuacionesRoutes);
 
 // Inicio del servidor
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`El servidor está escuchando en el puerto ${PORT}`);
+  console.log(`El servidor está escuchando en: http://localhost:${PORT}`);
 });

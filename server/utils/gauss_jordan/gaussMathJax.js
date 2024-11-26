@@ -12,11 +12,42 @@ mathjax.config({
 });
 mathjax.start();
 
-export async function recibirSVG_GJ() {
-  const recibido = retornarOperMatrizSVG();
+export async function recibirSVG_GJ(sistema) {
+  const { matrizTOSERVER, TOSERVER } = retornarOperMatrizSVG(sistema);
+  const matriz = [];
   const SVGs = [];
 
-  for (const objeto of recibido) {
+  for (const proceso of matrizTOSERVER) {
+    let auxMatriz = [];
+    for (let fila = 0; fila < proceso["matrizSVG"].length; fila++) {
+      let auxFilaM = [];
+      for (let columna = 0; columna <= proceso["matrizSVG"].length; columna++) {
+        let valor = proceso["matrizSVG"][fila][columna];
+        auxFilaM.push(
+          valor.denominador == 1
+            ? valor.numerador
+            : fraction(valor.numerador, valor.denominador)
+        );
+      }
+      auxMatriz.push(auxFilaM);
+    }
+    let auxMatrizPreSVG = matrix(auxMatriz);
+    let auxLatexM = parse(auxMatrizPreSVG.toString()).toTex({
+      parenthesis: "auto",
+      implicit: "hide",
+    });
+    let resultadoMSVG = await mathjax.typeset({
+      math: auxLatexM,
+      format: "TeX",
+      svg: true,
+    });
+
+    matriz.push({
+      resultadoMatrizSVG: resultadoMSVG.svg,
+    });
+  }
+
+  for (const objeto of TOSERVER) {
     let auxOpers = await Promise.all(
       objeto["operacionesSVG"].map(async (operacion) => {
         let auxOperSVG = await mathjax.typeset({
@@ -58,9 +89,10 @@ export async function recibirSVG_GJ() {
     });
   }
 
-//   console.log(SVGs);
+  //   console.log(SVGs);
 
   return {
+    matriz,
     resultado: SVGs,
   };
 }

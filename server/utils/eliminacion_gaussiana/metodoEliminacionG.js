@@ -18,6 +18,22 @@ async function obtenerRespuesta(pregunta) {
   });
 }
 
+function funcion(expresion, x) {
+  //METODO PARA HACER LA EVALUACION DE LA EXPRESION Y RETORNAR EL RESULTADO
+  expresion = expresion.replace(/x/g, `(${x})`);
+
+  try {
+    const valor = evaluate(expresion);
+    //   console.log(valor);
+    return typeOf(valor) != "Complex" && Number.isFinite(valor)
+      ? new Fraccion(math.fraction(valor).n, math.fraction(valor).d)
+      : NaN;
+  } catch (error) {
+    console.error("Error en la evaluacion de la expresion: ", error);
+    return NaN;
+  }
+}
+
 class Fraccion {
   constructor(numerador, denominador = 1) {
     this.numerador = numerador;
@@ -57,8 +73,7 @@ class Fraccion {
   }
 }
 
-let matriz;
-let matrizAuxiliar;
+// let matriz;
 
 async function preguntar() {
   let numEcuaciones = await obtenerRespuesta(
@@ -66,9 +81,6 @@ async function preguntar() {
   );
   numEcuaciones = parseInt(numEcuaciones);
   matriz = Array(numEcuaciones)
-    .fill()
-    .map(() => Array(numEcuaciones + 1).fill(0));
-  matrizAuxiliar = Array(numEcuaciones)
     .fill()
     .map(() => Array(numEcuaciones + 1).fill(0));
 
@@ -79,55 +91,35 @@ async function preguntar() {
     matriz[fila] = ecuacionArray;
     console.log("");
   }
-
-  inicializarMatrizAuxiliar();
 }
 
-function inicializarMatrizAuxiliar() {
-  for (let fila = 0; fila < matriz.length; fila++) {
-    for (let columna = 0; columna <= matriz.length; columna++) {
-      if (fila == columna) {
-        matrizAuxiliar[fila][columna] = new Fraccion(1);
-      } else if (columna == matriz.length) {
-        matrizAuxiliar[fila][columna] = matriz[fila][columna];
-      } else {
-        matrizAuxiliar[fila][columna] = new Fraccion(0);
-      }
-    }
-  }
-}
-
-function mostrarMatriz(matr) {
+function mostrarMatriz() {
   let matrizAMostrar = {};
   for (let fila = 0; fila < matriz.length; fila++) {
     let objetoEcuacion = {};
     for (let columna = 0; columna <= matriz.length; columna++) {
       objetoEcuacion[columna === matriz.length ? `v:` : `x${columna + 1}:`] =
-        matr[fila][columna].toTexto();
+        matriz[fila][columna].toTexto();
     }
     matrizAMostrar[`Ecuacion${fila + 1}:`] = objetoEcuacion;
   }
   console.table(matrizAMostrar);
-}
 
-function mostrarMatrizSinIgualdad(matr) {
-  let matrizAMostrar = {};
-  for (let fila = 0; fila < matriz.length; fila++) {
-    let objetoEcuacion = {};
-    for (let columna = 0; columna < matriz.length; columna++) {
-      objetoEcuacion[columna === matriz.length ? `v:` : `x${columna + 1}:`] =
-        matr[fila][columna].toTexto();
-    }
-    matrizAMostrar[`Ecuacion${fila + 1}:`] = objetoEcuacion;
+  if (operacionesAuxSERVER.length !== 0) {
+    procesosTOSERVER.push({
+      operacionesSVG: operacionesAuxSERVER,
+      matrizSVG: matriz.map((s) => [...s]),
+    });
   }
-  console.table(matrizAMostrar);
 }
 
 let parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 centros
 let contador = 0;
 let debemostrar = false;
+
 function iniciar() {
   for (let filaAux = 0; filaAux < matriz.length; filaAux++) {
+    if (parteMatriz != 3) operacionesAuxSERVER = [];
     for (let filaOrg = filaAux + 1; filaOrg < matriz.length; filaOrg++) {
       if (parteMatriz == 1) {
         debemostrar = operacionHacer0(
@@ -143,32 +135,27 @@ function iniciar() {
         if (filaAux == matriz.length - 2) {
           filaAux = matriz.length - 1;
           parteMatriz = 2;
-          mostrarMatrizSinIgualdad(matriz);
+          mostrarMatriz();
+          operacionesAuxSERVER = [];
           continue;
         }
       }
     }
     if (parteMatriz == 2) {
-      operacionDespejarAUX(0);
-      traspasarIgualdades();
       operacionDespejar(filaAux);
       return;
       // if (debemostrar) mostrarMatriz();
     } else if (contador > 0) {
-      mostrarMatrizSinIgualdad(matriz);
+      mostrarMatriz();
       contador = 0;
     }
   }
 }
 
-const operacionesAMultiplicar0 = [];
-
 function operacionHacer0(filaOriginal, filaAuxiliar, c, o) {
   if (filaOriginal[c].numerador == 0 || filaAuxiliar[c].numerador == 0)
     return false;
   let valorAMultiplicar = divisionFraccion(filaOriginal[c], filaAuxiliar[c]);
-  matrizAuxiliar[o][c] = valorAMultiplicar;
-  operacionesAMultiplicar0.push(valorAMultiplicar);
   valorAMultiplicar = multiplicarFraccion(valorAMultiplicar, new Fraccion(-1));
 
   let newFraccion = multiplicarFraccion(valorAMultiplicar, filaAuxiliar[c]);
@@ -183,9 +170,10 @@ function operacionHacer0(filaOriginal, filaAuxiliar, c, o) {
   }
 
   console.log("");
-  console.log(
-    `Fila ${o + 1} + (${valorAMultiplicar.toTexto()}) Fila ${c + 1}`.yellow
-  );
+  const stringToShow = `F${o + 1} + (${valorAMultiplicar.toTexto()})F${c + 1}`;
+
+  operacionesAuxSERVER.push(stringToShow);
+  console.log(stringToShow.yellow);
   return true;
   // mostrarMatriz();
 }
@@ -202,7 +190,10 @@ function despejarEcuacion(indice) {
     );
   }
 
-  let stringFun = "(" + matriz[indice][indice].toTexto() + ")x";
+  if(matriz[indice][indice].toNumero() == 0) {
+    return} 
+
+  let stringFun = "(" + matriz[indice][indice].toTexto() + `)x${indice + 1}`;
   for (let index = indice + 1; index < matriz.length; index++) {
     stringFun += "+(" + matriz[indice][index].toTexto() + ")";
   }
@@ -217,19 +208,26 @@ function despejarEcuacion(indice) {
       matriz[indice][matriz.length].denominador
     )
   );
-  const sol = eq.solveFor("x");
+  const sol = eq.solveFor(`x${indice + 1}`);
 
-  console.log(
-    `Despejando en la ecuacion ${indice + 1}: ${stringFun} = ` +
-      matriz[indice][matriz.length].toTexto()
-  );
+  const nDeEcuacion = indice + 1;
+  const ecuacionDespejada =
+    `${stringFun} = ` + matriz[indice][matriz.length].toTexto();
+
+  console.log(`Despejando en la ecuacion ${nDeEcuacion}: ${ecuacionDespejada}`);
 
   matriz[indice][matriz.length] = new Fraccion(sol.numer, sol.denom);
 
-  console.log(
-    `Resultado ecuacion ${indice + 1} = ` +
-      matriz[indice][matriz.length].toTexto()
-  );
+  const resultadoDespeje = matriz[indice][matriz.length].toTexto();
+
+  console.log(`Resultado ecuacion ${nDeEcuacion} = ` + resultadoDespeje);
+
+  despejesTOSERVER.push({
+    numEcuacion: nDeEcuacion,
+    ecuacionD: ecuacionDespejada,
+    resultado: `x${nDeEcuacion} = ${resultadoDespeje}`,
+    xxx: `${resultadoDespeje}`
+  });
 
   const indiceFila = indice - 1;
   if (indiceFila >= 0) despejarEcuacion(indiceFila);
@@ -276,10 +274,9 @@ function obtenerResiduo(fraccion1, fraccion2) {
 function mostrarResultados() {
   for (let fila = 0; fila < matriz.length; fila++) {
     console.log(
-      `x${fila + 1}: ${matriz[fila][
-        matriz.length
-      ].toTexto()}  y en decimal: ${matriz[fila][matriz.length].toNumero()}`
-        .bgRed
+      `x${fila + 1}: ${matriz[fila][matriz.length].toTexto()}  y en decimal x${
+        fila + 1
+      }: ${matriz[fila][matriz.length].toNumero()}`.bgRed
     );
   }
   console.log("");
@@ -326,91 +323,71 @@ function extraerCoeficientes(equation) {
   return coeficientes;
 }
 
-// new
-
-function operacionDespejarAUX(c) {
-  console.log("Matriz N:".bgMagenta);
-  mostrarMatriz(matrizAuxiliar);
-  console.log("Matriz AUX despejada: ");
-  if (c < matrizAuxiliar.length) despejarEcuacionAUX(c);
-  // mostrarMatriz();
-}
-
-function despejarEcuacionAUX(indice) {
-  for (let index = 0; index < indice; index++) {
-    matrizAuxiliar[indice][index] = multiplicarFraccion(
-      matrizAuxiliar[indice][index],
-      matrizAuxiliar[index][matrizAuxiliar.length]
-    );
-  }
-
-  let stringFun = " ";
-  for (let index = 0; index < indice; index++) {
-    stringFun += "(" + matrizAuxiliar[indice][index].toTexto() + ")+";
-  }
-  stringFun += "(" + matrizAuxiliar[indice][indice].toTexto() + ")x";
-  // matriz[indice][matriz.length] = funcion(stringFun, "x");
-
-  const equation = algebra.Equation;
-  const exp = algebra.parse(stringFun);
-  const eq = new equation(
-    exp,
-    new Fraction(
-      matrizAuxiliar[indice][matrizAuxiliar.length].numerador,
-      matrizAuxiliar[indice][matrizAuxiliar.length].denominador
-    )
-  );
-  const sol = eq.solveFor("x");
-
-  console.log(
-    `Despejando en la ecuacion ${indice + 1}: ${stringFun} = ` +
-      matrizAuxiliar[indice][matrizAuxiliar.length].toTexto()
-  );
-
-  matrizAuxiliar[indice][matrizAuxiliar.length] = new Fraccion(
-    sol.numer,
-    sol.denom
-  );
-
-  console.log(
-    `Resultado ecuacion ${indice + 1} = ` +
-      matrizAuxiliar[indice][matrizAuxiliar.length].toTexto()
-  );
-
-  const indiceFila = indice + 1;
-  if (indiceFila < matrizAuxiliar.length) {
-    despejarEcuacionAUX(indiceFila);
-  }
-}
-
-function traspasarIgualdades() {
-  for (let i = 0; i < matriz.length; i++) {
-    matriz[i][matriz.length] = matrizAuxiliar[i][matriz.length];
-  }
-
-  console.log("Nueva igualacion de matriz original: ".bgMagenta );
-  mostrarMatriz(matriz);
-}
-
-
-
 limpiarConsole();
-await preguntar();
-console.log(matrizAuxiliar.length);
+/* await preguntar();
 console.log("Matriz inicial:".bgMagenta);
-mostrarMatriz(matriz);
-console.log("Matriz Auxiliar:".bgMagenta);
-mostrarMatriz(matrizAuxiliar);
+mostrarMatriz();
 await obtenerRespuesta("PRESIONA ENTER PARA CONTINUAR");
 limpiarConsole();
 console.log("Matriz original:".bgMagenta);
-mostrarMatriz(matriz);
+mostrarMatriz();
 console.log("Procesos:".bgMagenta);
 iniciar();
 console.log("Resultados:".bgBlue);
-mostrarResultados();
-// operacionesAMultiplicar0.forEach((oper) => {
-//   console.log(oper);
-// });
-
+mostrarResultados(); */
 rl.close();
+
+let matriz;
+let matrizTOSERVER = [];
+let procesosTOSERVER = [];
+let operacionesAuxSERVER = [];
+let despejesTOSERVER = [];
+
+// const equation = algebra.Equation;
+// const exp = algebra.parse("(2)x+(-7)");
+// const eq = new equation(exp, -5);
+// const sol = eq.solveFor("x");
+
+// console.log(sol);
+
+export function retornarOperMatrizSVG(sistema) {
+  parteMatriz = 1; //1 parte inferior izquierda, 2 parte superior derecha, 3 centros
+  contador = 0;
+  debemostrar = false;
+  matrizTOSERVER = [];
+  procesosTOSERVER = [];
+  despejesTOSERVER = [];
+  matriz = Array(sistema.ecuaciones.length)
+    .fill()
+    .map(() => Array(sistema.ecuaciones.length + 1).fill(0));
+
+  if (sistema.tipo == "completas") {
+    sistema.ecuaciones.forEach((ecuacion, index) => {
+      const ecuacionArray = extraerCoeficientes(ecuacion);
+      matriz[index] = ecuacionArray;
+      console.table(ecuacionArray);
+    });
+  } else if (sistema.tipo == "casillas") {
+    sistema.ecuaciones.forEach((ecuacion, i) => {
+      ecuacion.forEach((celda, j) => {
+        matriz[i][j] = new Fraccion(parseInt(celda));
+      });
+    });
+  }
+
+  matrizTOSERVER.push({
+    matrizSVG: matriz.map((s) => [...s]),
+  });
+  console.log("Procesos:".bgMagenta);
+  iniciar();
+  console.log("Resultados:".bgBlue);
+  mostrarResultados();
+  console.log("LONUEVO");
+  console.table(procesosTOSERVER);
+  matriz = [];
+  return {
+    matrizTOSERVER,
+    procesosTOSERVER,
+    despejesTOSERVER,
+  };
+}

@@ -2,7 +2,7 @@
 
     <div class="cuerpo_inicial">
         <div class="calculadoraBiseccion">
-            <%- include ('Calculadora.ejs') %>
+            <%- include ('../partials/Calculadora.ejs') %>
         </div>
         <div id="image_graficaInicial" class="imagen_grafica">
             <div id="image_grafica" class="imagen_grafica">
@@ -14,21 +14,25 @@
         </div>
         <div id="divFormBiseccion" class="formBiseccion">
             <form id="idFormLimites">
-                <label for="limiteInferiorBiseccion">
-                    <p>Ingresa el limite inferior: </p>
-                    <input id="limiteInferiorBiseccion" type="number" name="limiteInferior" min="-10" max="10"
+                <label style="visibility: hidden;" for="limiteInferiorBiseccion">
+                    <p style="visibility: hidden;">Ingresa el limite inferior: </p>
+                    <input style="visibility: hidden;" id="limiteInferiorBiseccion" type="number" name="limiteInferior" min="-10" max="10"
                         onchange="verificarLimInf()">
                 </label>
-                <label for="limiteSuperiorBiseccion">
-                    <p>Ingresa el limite superior: </p>
-                    <input id="limiteSuperiorBiseccion" type="number" name="limiteSuperior" min="-10" max="10"
+                <label style="visibility: hidden;" for="limiteSuperiorBiseccion">
+                    <p style="visibility: hidden;">Ingresa el limite superior: </p>
+                    <input style="visibility: hidden;" id="limiteSuperiorBiseccion" type="number" name="limiteSuperior" min="-10" max="10"
                         onchange="verificarLimSup()">
                 </label>
                 <input style="display: block; margin: 0 auto" type="button" value="Generar metodo de biseccion"
                     onclick="generarMetodoB()">
-                <p>Nota: Si desea no ingresar limites, solo deje los espacios en blanco</p>
+                <p style="visibility: hidden;">Nota: Si desea no ingresar limites, solo deje los espacios en blanco</p>
             </form>
         </div>
+    </div>
+
+    <div id="registro-de-biseccion">
+        
     </div>
 
 

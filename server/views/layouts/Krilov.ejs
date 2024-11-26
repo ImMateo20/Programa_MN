@@ -2,16 +2,21 @@
     <div>
         <label for="numero-de-ecuaciones"></label>
         <input id="num-de-ecuaciones" type="number" name="numero-de-ecuaciones" placeholder="numero de ecuacuaciones"
-            min="2" max="6">
+        min="2" max="6">
         <select name="tipo-ingreso" id="selected-ecuacion">
-            <option value="ecuacionT">Ecuacion completa</option>
             <option value="valoresT">Valores por casilla</option>
         </select>
         <div id="div-generador-de-input"></div>
-        <div id="divSVG"">
+        <div id="divSVGIgualdad">
+        <div id="matrizSistemaSVGIgualdad"></div>
+    </div>
+        <button id="generar-metodo-krilov">Click</button>
+        <button id="generargj">Gauss</button>
+        <button id="generareg">Eliminacion</button>
+        <button id="generardlu">Descomposicion</button>
+        <div id="divSVG">
             <div id=" operacionesSVG"></div>
         <div id="matrizSistemaSVG"></div>
     </div>
-    <button id="generar-descomposicion-lu">Click</button>
     </div>
     <%- include('../partials/footer.html') %>

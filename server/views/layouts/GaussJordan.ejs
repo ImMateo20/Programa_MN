@@ -1,11 +1,17 @@
 <%- include('../partials/header.html') %>
     <div>
-        <div id="divSVG" style="background-color: aqua; width:500px;height:500px;">
-            <h2>hola</h2>
+        <label for="numero-de-ecuaciones"></label>
+        <input id="num-de-ecuaciones" type="number" name="numero-de-ecuaciones" placeholder="numero de ecuacuaciones"
+            min="2" max="6">
+            <select name="tipo-ingreso" id="selected-ecuacion">
+                <option value="ecuacionT">Ecuacion completa</option>
+                <option value="valoresT">Valores por casilla</option>
+            </select>
+        <div id="div-generador-de-input"></div>
+        <div id="divSVG"">
             <div id="operacionesSVG"></div>
             <div id="matrizSistemaSVG"></div>
-            <!-- <div id="matrizIgualdadSVG"></div> -->
         </div>
-        <button onclick="obtenerS_GJ()">Click</button>
+        <button id="generar-metodo-gauss">Click</button>
     </div>
     <%- include('../partials/footer.html') %>
