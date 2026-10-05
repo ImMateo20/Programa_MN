@@ -13,14 +13,14 @@
   "license": "ISC",
   "dependencies": {
     "algebra.js": "^0.2.6",
-    "chartjs-node-canvas": "^4.1.6",
+    "chart.js": "^4.4.8",
+    "chartjs-node-canvas": "^5.0.0",
     "colors": "^1.4.0",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "mathjax-node": "^2.1.1",
     "mathjs": "^13.1.1",
-    "morgan": "^1.10.0",
-    "stack_em": "file:"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
